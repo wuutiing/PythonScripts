@@ -12,11 +12,12 @@ import logging.handlers
 # config
 # +++++++++++++++++++++++
 def connect_to_mongo(db = 'ZLSpidersData'):
-    User = "Spider"
-    Password = "123456"
-    Host = "192.168.2.200"
-    Port = "27017"
+    User = "your user"
+    Password = "your pwd"
+    Host = "your host"
+    Port = "your port"
     mongo_str = "mongodb://%s:%s@%s:%s"%(User, Password, Host, Port)
+#     mongo_str = "mongodb://%s:%s"%(Host, Port)
     client = pymongo.MongoClient(mongo_str)
     sys.stdout.write("connecting to mongodb.database %s"%db)
     return client,client[db]

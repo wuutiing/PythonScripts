@@ -36,7 +36,7 @@ app_id = "33986"
 # config
 # ++++++++++++++++++++++++
 
-class LoggerEnabledObj():
+class LoggerEnabledObj(object):
     def __init__(self, logfile):
         self._logger = self.set_log(logfile)
 

@@ -61,7 +61,7 @@ class EventCollection():
                 self.events.append(event)
                 time.sleep(1)
                 if len(self.events)>10:
-                    break
+                    time.sleep(self.time_esc+1)
         threading.Thread(target=add_many, name="add_many").start()
 
 if __name__ == "__main__":

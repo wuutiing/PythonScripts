@@ -12,6 +12,8 @@ from core import Ensurer, ensure_preoperty, not_null, str_only, int_only
 
 @ensure_preoperty
 class Event:
+    '''
+    运用类属性转换中介设置类属性的Event类'''
     name = Ensurer([not_null, str_only])
     desc = Ensurer(str_only)
     rank = Ensurer(int_only)

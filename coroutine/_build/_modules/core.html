@@ -1,0 +1,160 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>core &#8212; coroutine  documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for core</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf8</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">author: wuting</span>
+<span class="sd">contact: quzhouwuting@163.com</span>
+<span class="sd">create_date: 2017-06-26</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">functools</span>
+
+<div class="viewcode-block" id="coroutine"><a class="viewcode-back" href="../core.html#core.coroutine">[docs]</a><span class="k">def</span> <span class="nf">coroutine</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    协程，用作修饰器&#39;&#39;&#39;</span>
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+        <span class="n">generator</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span> <span class="c1"># 获取generator对象</span>
+        <span class="nb">next</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span> <span class="c1"># 初始化generator对象</span>
+        <span class="k">return</span> <span class="n">generator</span>
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<div class="viewcode-block" id="Ensurer"><a class="viewcode-back" href="../core.html#core.Ensurer">[docs]</a><span class="k">class</span> <span class="nc">Ensurer</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    类属性转换中介。validates表示对属性setter的验证器，是包含callable(name, value)的list或单个callable</span>
+<span class="sd">    当validates是包含callable的list时，验证规则将是and；</span>
+<span class="sd">    doc是属性文档&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validates</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validates</span> <span class="o">=</span> <span class="n">validates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span></div>
+
+
+<div class="viewcode-block" id="ensure_preoperty"><a class="viewcode-back" href="../core.html#core.ensure_preoperty">[docs]</a><span class="k">def</span> <span class="nf">ensure_preoperty</span><span class="p">(</span><span class="n">Class</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    配合Ensurer类使用，将类中定义的Ensurer实例转化为属性&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">mk_property</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">attribute</span><span class="p">):</span>
+        <span class="n">private_name</span> <span class="o">=</span> <span class="s2">&quot;__&quot;</span> <span class="o">+</span> <span class="n">prop_name</span>
+        <span class="k">def</span> <span class="nf">getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">private_name</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">attribute</span><span class="o">.</span><span class="n">validates</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">validate</span> <span class="ow">in</span> <span class="n">attribute</span><span class="o">.</span><span class="n">validates</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">validate</span><span class="p">):</span>
+                        <span class="n">validate</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">attribute</span><span class="o">.</span><span class="n">validates</span><span class="p">):</span>
+                <span class="n">attribute</span><span class="o">.</span><span class="n">validates</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">private_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">property</span><span class="p">(</span><span class="n">getter</span><span class="p">,</span> <span class="n">setter</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">attribute</span><span class="o">.</span><span class="n">doc</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">Class</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">Ensurer</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">Class</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">mk_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Class</span></div>
+
+<div class="viewcode-block" id="not_null"><a class="viewcode-back" href="../core.html#core.not_null">[docs]</a><span class="k">def</span> <span class="nf">not_null</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    非空验证器&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is not allowed None&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="int_only"><a class="viewcode-back" href="../core.html#core.int_only">[docs]</a><span class="k">def</span> <span class="nf">int_only</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    int限定验证器&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span> <span class="ow">or</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is only allowed int now </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="str_only"><a class="viewcode-back" href="../core.html#core.str_only">[docs]</a><span class="k">def</span> <span class="nf">str_only</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    str限定验证器&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">or</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is only allowed str, now </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span></div>
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, wuutiing.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

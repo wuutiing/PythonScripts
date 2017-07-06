@@ -1,0 +1,145 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>core module &#8212; coroutine  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="coroutine module" href="coroutine.html" />
+    <link rel="prev" title="conf module" href="conf.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-core">
+<span id="core-module"></span><h1>core module<a class="headerlink" href="#module-core" title="Permalink to this headline">¶</a></h1>
+<p>author: wuting
+contact: <a class="reference external" href="mailto:quzhouwuting&#37;&#52;&#48;163&#46;com">quzhouwuting<span>&#64;</span>163<span>&#46;</span>com</a>
+create_date: 2017-06-26</p>
+<dl class="class">
+<dt id="core.Ensurer">
+<em class="property">class </em><code class="descclassname">core.</code><code class="descname">Ensurer</code><span class="sig-paren">(</span><em>validates</em>, <em>doc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core.html#Ensurer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Ensurer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>类属性转换中介。validates表示对属性setter的验证器，是包含callable(name, value)的list或单个callable
+当validates是包含callable的list时，验证规则将是and；
+doc是属性文档</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="core.coroutine">
+<code class="descclassname">core.</code><code class="descname">coroutine</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core.html#coroutine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.coroutine" title="Permalink to this definition">¶</a></dt>
+<dd><p>协程，用作修饰器</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="core.ensure_preoperty">
+<code class="descclassname">core.</code><code class="descname">ensure_preoperty</code><span class="sig-paren">(</span><em>Class</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core.html#ensure_preoperty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ensure_preoperty" title="Permalink to this definition">¶</a></dt>
+<dd><p>配合Ensurer类使用，将类中定义的Ensurer实例转化为属性</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="core.int_only">
+<code class="descclassname">core.</code><code class="descname">int_only</code><span class="sig-paren">(</span><em>prop_name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core.html#int_only"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.int_only" title="Permalink to this definition">¶</a></dt>
+<dd><p>int限定验证器</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="core.not_null">
+<code class="descclassname">core.</code><code class="descname">not_null</code><span class="sig-paren">(</span><em>prop_name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core.html#not_null"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.not_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>非空验证器</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="core.str_only">
+<code class="descclassname">core.</code><code class="descname">str_only</code><span class="sig-paren">(</span><em>prop_name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core.html#str_only"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.str_only" title="Permalink to this definition">¶</a></dt>
+<dd><p>str限定验证器</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">coroutine</a><ul>
+      <li>Previous: <a href="conf.html" title="previous chapter">conf module</a></li>
+      <li>Next: <a href="coroutine.html" title="next chapter">coroutine module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/core.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, wuutiing.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/core.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

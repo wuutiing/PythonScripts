@@ -37,8 +37,9 @@ class JsonObj:
             json_path = self.__key.get(k, None)
             if json_path is None:
                 raise KeyError("key {} not configed".format(k))
-            if is_valid(dic[k]):
-                self._set_value(json_path, dic[k])
+            # if is_valid(dic[k]):
+            #     self._set_value(json_path, dic[k])
+            self._set_value(json_path, dic[k])
         if assign_key is None:
             self._jsonobjs[time.time()] = self._jsonobj
         else:
@@ -50,7 +51,15 @@ class JsonObj:
         '''
         修改值'''
         tmp_path = "".join(["['{}']".format(i) for i in json_path.split(".")])
-        exec("self._jsonobj{} = value".format(tmp_path))
+        if value is None:
+            exec("del(self._jsonobj{})".format(tmp_path))
+        elif type(value) == float:
+            if isnan(value):
+                exec("del(self._jsonobj{})".format(tmp_path))
+            else:
+                exec("self._jsonobj{} = value".format(tmp_path))
+        else:
+            exec("self._jsonobj{} = value".format(tmp_path))
 
     def output(self, file_path="template", force=False):
         if len(self._jsonobjs)>1000 or force:
